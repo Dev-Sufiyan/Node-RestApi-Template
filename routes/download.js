@@ -1,36 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const File = require('../models/files');
 
-// Route to download file by name
-function downloadRoute(connection) {
-  router.get('/:fileName', (req, res) => {
-    const fileName = req.params.fileName;
+router.get('/:fileName', async (req, res) => {
+  const fileName = req.params.fileName;
 
-    // Query to retrieve file data based on file name
-    const query = 'SELECT file_data FROM files WHERE file_name = ?';
+  try {
+    const file = await File.findByPk(fileName);
 
-    connection.query(query, [fileName], (err, results) => {
-      if (err) {
-        console.error('Error fetching file:', err);
-        res.status(500).send('Error fetching file');
-        return;
-      }
+    if (!file) {
+      res.status(404).send('File not found');
+      return;
+    }
 
-      if (results.length === 0) {
-        res.status(404).send('File not found');
-        return;
-      }
+    const fileData = file.file_data;
 
-      const fileData = results[0].file_data;
+    res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+    res.setHeader('Content-type', 'application/octet-stream');
+    res.send(fileData);
+  } catch (error) {
+    console.error('Error fetching file:', error);
+    res.status(500).send('Error fetching file');
+  }
+});
 
-      // Send the file as a response
-      res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
-      res.setHeader('Content-type', 'application/octet-stream');
-      res.send(fileData);
-    });
-  });
-
-  return router;
-}
-
-module.exports = downloadRoute;
+module.exports = router;
