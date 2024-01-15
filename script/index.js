@@ -1,9 +1,9 @@
 const express = require('express');
-const saveRoute = require('./routes/save');
-const downloadRoute = require('./routes/download');
+const saveRoute = require('../routes/save');
+const downloadRoute = require('../routes/download');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger-output.json');
-const sequelize = require('./config/sequelize'); 
+const swaggerDocument = require('../swagger/swagger-output.json')
+const sequelize = require('../config/sequelize'); 
 
 const app = express();
 app.use(express.json());

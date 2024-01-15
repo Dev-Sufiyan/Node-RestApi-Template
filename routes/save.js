@@ -4,6 +4,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'temp/uploads/' });
 const fs = require('fs').promises;
 const File = require('../models/files');
+const errorhandler = require('../util/errorHandler');
 
 router.post('/', upload.single('file'), async (req, res) => {
   try {
@@ -27,8 +28,7 @@ router.post('/', upload.single('file'), async (req, res) => {
 
     res.status(200).send('File saved successfully');
   } catch (error) {
-    console.error('Error saving or reading file:', error);
-    res.status(500).send('Error saving or reading file');
+    res.status(500).send(errorhandler(error));
   }
 });
 
