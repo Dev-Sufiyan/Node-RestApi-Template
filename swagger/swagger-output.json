@@ -43,7 +43,7 @@
         ],
         "parameters": [
           {
-            "name": "file_name",
+            "name": "FileId",
             "in": "formData",
             "description": "Name of the file",
             "required": true,

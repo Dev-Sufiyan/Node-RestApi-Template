@@ -13,7 +13,7 @@ router.get('/:fileName', async (req, res) => {
       return;
     }
 
-    const fileData = file.file_data;
+    const fileData = file.FileContent ;
 
     res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
     res.setHeader('Content-type', 'application/octet-stream');

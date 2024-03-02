@@ -2,17 +2,21 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize'); 
 
 const files = sequelize.define('files', {
-    file_name: {
+    FileId: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
     },
-    file_data: {
+    FileContent: {
         type: DataTypes.BLOB,
         allowNull: false,
     },
+    FileExtension: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 }, {
-    tableName : 'files',
+    tableName : 'Files',
     timestamps: false,
 });
 

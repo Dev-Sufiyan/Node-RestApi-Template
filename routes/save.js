@@ -8,12 +8,12 @@ const errorhandler = require('../util/errorHandler');
 
 router.post('/', upload.single('file'), async (req, res) => {
   try {
-    if (!req.body || !req.body.file_name || !req.file) {
+    if (!req.body || !req.body.FileId || !req.file) {
       res.status(400).send('Invalid request data');
       return;
     }
 
-    const { file_name } = req.body;
+    const { FileId } = req.body;
     const filePath = req.file.path;
 
     const fileData = await fs.readFile(filePath, { encoding: null });
@@ -22,8 +22,8 @@ router.post('/', upload.single('file'), async (req, res) => {
     await fs.unlink(filePath);
 
     await File.create({
-      file_name,
-      file_data: fileData,
+      FileId,
+      FileContent : fileData,
     });
 
     res.status(200).send('File saved successfully');
